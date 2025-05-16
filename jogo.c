@@ -2,17 +2,96 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//menu do jogo
-
+void menuInicial();
+void jogo ();
 void limpaTela(){
     system("clear");
+    system("cls");
 }
+void iniciaTabuleiro(char tabuleiro[3][3]){
+ 
+    //Navega por cada posição do tabuleiro e coloca o símbolo de '-'
+    int linha,coluna;
+    for(linha = 0; linha < 3; linha++){
+        for(coluna = 0; coluna < 3; coluna++){
+            tabuleiro[linha][coluna] = '-';
+        }
+    }
+ 
+}
+void exibeInstrucoes(){
+ 
+    printf("\nMapa de Posicoes:");
+    printf("\n 7 | 8 | 9");
+    printf("\n 4 | 5 | 6");   
+    printf("\n 1 | 2 | 3");
+ 
+}
+
+void exibeTabuleiro (char tabuleiro[3][3]){
+ 
+    //Exibe o tabuleiro com suas linhas e colunas quebrando a linha ao sair de um for
+   int linha,coluna;
+   printf("\n");
+   for(linha = 0; linha < 3; linha++){
+       for(coluna = 0; coluna < 3; coluna++){
+           printf("%c   ", tabuleiro[linha][coluna]);
+       }
+       printf("\n");
+   }
+
+}
+int confereTabuleiro(char tabuleiro[3][3]){
+ 
+    int linha, coluna;
+
+    //Confere linhas
+    for(linha = 0; linha < 3; linha++){
+        if(tabuleiro[linha][0] == 'X' && tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]){
+            return 1;
+        }else if(tabuleiro[linha][0] == 'O' && tabuleiro[linha][0] == tabuleiro[linha][1] && tabuleiro[linha][1] == tabuleiro[linha][2]){
+            return 2;
+        }
+    }
+
+    //Confere Colunas
+    for(coluna = 0; coluna < 3; coluna++){
+        if(tabuleiro[0][coluna] == 'X' && tabuleiro[0][coluna] == tabuleiro[1][coluna] && tabuleiro[1][coluna] == tabuleiro[2][coluna]){
+            return 1;
+        }else if(tabuleiro[0][coluna] == 'O' && tabuleiro[0][coluna] == tabuleiro[1][coluna] && tabuleiro[1][coluna] == tabuleiro[2][coluna]){
+            return 2;
+        }
+    }
+
+    //Diagonal Principal
+    if(tabuleiro[0][0] != '-' && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]){
+
+        if(tabuleiro[0][0] == 'X'){
+           return 1;
+        }else{
+           return 2;
+        }
+    }
+
+    //Diagonal Secundária
+    if(tabuleiro[0][2] != '-' && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]){
+
+        if(tabuleiro[0][2] == 'X'){
+            return 1;
+        }else{
+           return 2;
+        }
+    }
+
+    return 0;
+}
+
 void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogadorUm, int pontuacaoJogadorDois){
  
     ///Variáveis Gerais
-    char nomeDoJogadorAtual [30];//Nomes dos jogadores
+    char nomeDoJogadorAtual[30];//Nomes dos jogadores
     char tabuleiro[3][3];                                       //Tabuleiro do Jogo
-    int linha,coluna;                                           //Auxiliares para tabuleiro
+    //int linha,coluna;                                           //Auxiliares para tabuleiro
     int linhaJogada,colunaJogada,posicaoJogada;                 //Posição em que o jogador posiciona sua marca
     int estadoDeJogo = 1;                                       //0 = Sem jogo,1 = Em Jogo
     int turnoDoJogador = 1;                                     //1 = X, 2 = O
@@ -28,7 +107,7 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
         limpaTela();
  
         printf("\nRodada: %i \n",rodada);
-        printf("Pontuacao: %s %i  x  %i %s",nomeDoJogadorUm,pontuacaoJogadorUm,pontuacaoJogadorDois,nomeDoJogadorDois);
+        printf("Pontuacao: %s : %i  x  %i : %s",nomeDoJogadorUm,pontuacaoJogadorUm,pontuacaoJogadorDois,nomeDoJogadorDois);
  
         //Exibe o tabuleiro na tela
         exibeTabuleiro(tabuleiro);
@@ -58,8 +137,8 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
         while(posicionouJogada == false){
  
             //Lê a jogada
-            printf("\nDigite uma posicao conforme o mapa acima:",nomeDoJogadorAtual);
-            scanf("%c",&posicaoJogada); 
+            printf("\n%s digite uma posicao conforme o mapa acima:",nomeDoJogadorAtual);
+            scanf("%d",&posicaoJogada); 
  
             //Passa a linha e coluna de acordo com a matriz de posições exibida no mapa
             linhaJogada = posicoes[posicaoJogada-1][0];
@@ -92,11 +171,11 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
  
         //Confere se o jogo acabou
         if(confereTabuleiro(tabuleiro) == 1){
-            printf("O jogador X venceu");
+            printf("O jogador %s venceu", nomeDoJogadorUm);
             pontuacaoJogadorUm++;
             estadoDeJogo = 0;
         }else if(confereTabuleiro(tabuleiro) == 2){
-            printf("O jogador O venceu");
+            printf("O jogador %s venceu", nomeDoJogadorDois);
             pontuacaoJogadorDois++;
             estadoDeJogo = 0;
         }
@@ -111,15 +190,17 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
     printf("\nO que deseja fazer?");
     printf("\n1-Continuar Jogando");
     printf("\n2-Menu Inicial");
-    printf("\n3-Sair");
-    scanf("%i",&opcao);
+    printf("\nDigite outro numero para sair: ");
+    scanf("%d",&opcao);
     if(opcao == 1){
         jogo(nomeDoJogadorUm, nomeDoJogadorDois,pontuacaoJogadorUm,pontuacaoJogadorDois);
     }else if(opcao == 2){
         menuInicial();
+    }else{
     }
  
 }
+
 void menuInicial(){
  
     //Opção escolhida pelo jogador
@@ -150,7 +231,7 @@ void menuInicial(){
                 scanf("%s", nomeDoJogadorUm); 
                 printf("Digite o nome do jogador 2: ");
                 scanf("%s", nomeDoJogadorDois);
-                //jogo(nomeDoJogadorUm, nomeDoJogadorDois,0,0);
+                jogo(nomeDoJogadorUm, nomeDoJogadorDois,0,0);
                 
                 break;
 
