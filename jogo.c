@@ -26,27 +26,27 @@ void limpaTelaLinux(){
 }
 
 void iniciaTabuleiro(char tabuleiro[3][3]){
- 
-    //Navega por cada posição do tabuleiro e coloca o símbolo de '-'
+
+    //Navega por cada posi��o do tabuleiro e coloca o s�mbolo de '-'
     int linha,coluna;
     for(linha = 0; linha < 3; linha++){
         for(coluna = 0; coluna < 3; coluna++){
             tabuleiro[linha][coluna] = '-';
         }
     }
- 
+
 }
 void exibeInstrucoes(){
- 
+
     printf("\nMapa de Posicoes:");
     printf("\n 7 | 8 | 9");
     printf("\n 4 | 5 | 6");
     printf("\n 1 | 2 | 3");
- 
+
 }
 
 void exibeTabuleiro (char tabuleiro[3][3]){
- 
+
     //Exibe o tabuleiro com suas linhas e colunas quebrando a linha ao sair de um for
    int linha,coluna;
    printf("\n");
@@ -74,7 +74,7 @@ int confereTabuleiro(char tabuleiro[3][3]) {
     return 0;
 }
 
-// Verifica se o tabuleiro está completo (empate)
+// Verifica se o tabuleiro est� completo (empate)
 bool tabuleiroCompleto(char tabuleiro[3][3]) {
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++) {
@@ -85,55 +85,55 @@ bool tabuleiroCompleto(char tabuleiro[3][3]) {
     return true;
 }
 
-// Função para avaliar o estado atual do tabuleiro
+// Fun��o para avaliar o estado atual do tabuleiro
 int avaliarTabuleiro(char tabuleiro[3][3]) {
     int resultado = confereTabuleiro(tabuleiro);
-    
+
     // Se o jogador (X) ganhou, retorna -10
     if(resultado == 1)
         return -10;
-    
+
     // Se a CPU (O) ganhou, retorna +10
     else if(resultado == 2)
         return 10;
-    
-    // Se é empate, retorna 0
+
+    // Se � empate, retorna 0
     return 0;
 }
 
-// Implementação do algoritmo Minimax
+// Implementa��o do algoritmo Minimax
 int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
     // Avalia o estado atual do tabuleiro
     int pontuacao = avaliarTabuleiro(tabuleiro);
-    
-    // Se a CPU ganhou, retorna a pontuação
+
+    // Se a CPU ganhou, retorna a pontua��o
     if(pontuacao == 10)
         return pontuacao - profundidade;
-        
-    // Se o jogador ganhou, retorna a pontuação
+
+    // Se o jogador ganhou, retorna a pontua��o
     if(pontuacao == -10)
         return pontuacao + profundidade;
-        
-    // Se não há mais movimentos possíveis (empate)
+
+    // Se n�o h� mais movimentos poss�veis (empate)
     if(tabuleiroCompleto(tabuleiro))
         return 0;
-        
-    // Se é a vez do maximizador (CPU)
+
+    // Se � a vez do maximizador (CPU)
     if(ehMaximizador) {
         int melhorPontuacao = -1000;
-        
-        // Percorre todas as células
+
+        // Percorre todas as c�lulas
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                // Verifica se a célula está vazia
+                // Verifica se a c�lula est� vazia
                 if(tabuleiro[i][j] == '-') {
                     // Faz o movimento
                     tabuleiro[i][j] = 'O';
-                    
-                    // Chama minimax recursivamente e escolhe o valor máximo
-                    melhorPontuacao = (melhorPontuacao > minimax(tabuleiro, profundidade + 1, !ehMaximizador)) ? 
+
+                    // Chama minimax recursivamente e escolhe o valor m�ximo
+                    melhorPontuacao = (melhorPontuacao > minimax(tabuleiro, profundidade + 1, !ehMaximizador)) ?
                                       melhorPontuacao : minimax(tabuleiro, profundidade + 1, !ehMaximizador);
-                    
+
                     // Desfaz o movimento
                     tabuleiro[i][j] = '-';
                 }
@@ -141,22 +141,22 @@ int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
         }
         return melhorPontuacao;
     }
-    // Se é a vez do minimizador (jogador)
+    // Se � a vez do minimizador (jogador)
     else {
         int melhorPontuacao = 1000;
-        
-        // Percorre todas as células
+
+        // Percorre todas as c�lulas
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                // Verifica se a célula está vazia
+                // Verifica se a c�lula est� vazia
                 if(tabuleiro[i][j] == '-') {
                     // Faz o movimento
                     tabuleiro[i][j] = 'X';
-                    
-                    // Chama minimax recursivamente e escolhe o valor mínimo
-                    melhorPontuacao = (melhorPontuacao < minimax(tabuleiro, profundidade + 1, !ehMaximizador)) ? 
+
+                    // Chama minimax recursivamente e escolhe o valor m�nimo
+                    melhorPontuacao = (melhorPontuacao < minimax(tabuleiro, profundidade + 1, !ehMaximizador)) ?
                                       melhorPontuacao : minimax(tabuleiro, profundidade + 1, !ehMaximizador);
-                    
+
                     // Desfaz o movimento
                     tabuleiro[i][j] = '-';
                 }
@@ -166,28 +166,28 @@ int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
     }
 }
 
-// Encontra o melhor movimento possível para a CPU
+// Encontra o melhor movimento poss�vel para a CPU
 void encontrarMelhorMovimento(char tabuleiro[3][3], int *linha, int *coluna) {
     int melhorPontuacao = -1000;
     *linha = -1;
     *coluna = -1;
-    
-    // Percorre todas as células
+
+    // Percorre todas as c�lulas
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++) {
-            // Verifica se a célula está vazia
+            // Verifica se a c�lula est� vazia
             if(tabuleiro[i][j] == '-') {
                 // Faz o movimento
                 tabuleiro[i][j] = 'O';
-                
-                // Calcula a pontuação para este movimento
+
+                // Calcula a pontua��o para este movimento
                 int pontuacaoMovimento = minimax(tabuleiro, 0, false);
-                
+
                 // Desfaz o movimento
                 tabuleiro[i][j] = '-';
-                
-                // Se a pontuação deste movimento é maior que a melhor pontuação,
-                // atualiza a melhor pontuação e o movimento
+
+                // Se a pontua��o deste movimento � maior que a melhor pontua��o,
+                // atualiza a melhor pontua��o e o movimento
                 if(pontuacaoMovimento > melhorPontuacao) {
                     *linha = i;
                     *coluna = j;
@@ -235,14 +235,14 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
                 }
             }
         } else {
-            // CPU aleatório
+            // CPU aleat�rio
             posicionou = false;
             while(!posicionou) {
                 int jogadaCPU = rand() % 9; // Recebe um valor aleatorio de 1 a 9
                 linhaJogada = posicoes[jogadaCPU][0];
                 colunaJogada = posicoes[jogadaCPU][1];
                 if(tabuleiro[linhaJogada][colunaJogada] == '-') {
-                    printf("\nCPU escolheu a posição %d.\n", jogadaCPU + 1);
+                    printf("\nCPU escolheu a posi��o %d.\n", jogadaCPU + 1);
                     tabuleiro[linhaJogada][colunaJogada] = 'O';
                     posicionou = true;
                 }
@@ -315,12 +315,12 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
             }
         } else {
             // CPU com algoritmo minimax
-            printf("\nCPU está pensando...\n");
-            
+            printf("\nCPU est� pensando...\n");
+
             // Encontra o melhor movimento usando o algoritmo minimax
             encontrarMelhorMovimento(tabuleiro, &linhaJogada, &colunaJogada);
-            
-            // Converte a posição da matriz para o número correspondente no mapa
+
+            // Converte a posi��o da matriz para o n�mero correspondente no mapa
             int posicaoNumerica = -1;
             for(int i = 0; i < 9; i++) {
                 if(posicoes[i][0] == linhaJogada && posicoes[i][1] == colunaJogada) {
@@ -328,8 +328,8 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
                     break;
                 }
             }
-            
-            printf("\nCPU escolheu a posição %d.\n", posicaoNumerica);
+
+            printf("\nCPU escolheu a posi��o %d.\n", posicaoNumerica);
             tabuleiro[linhaJogada][colunaJogada] = 'O';
         }
 
@@ -363,82 +363,87 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
 }
 
 void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogadorUm, int pontuacaoJogadorDois){
- 
-    ///Variáveis Gerais
+
+    ///Vari�veis Gerais
     char nomeDoJogadorAtual[30];//Nomes dos jogadores
     char tabuleiro[3][3];                                       //Tabuleiro do Jogo
     //int linha,coluna;                                           //Auxiliares para tabuleiro
-    int linhaJogada,colunaJogada,posicaoJogada;                 //Posição em que o jogador posiciona sua marca
+    int linhaJogada,colunaJogada,posicaoJogada;                 //Posi��o em que o jogador posiciona sua marca
     int estadoDeJogo = 1;                                       //0 = Sem jogo,1 = Em Jogo
     int turnoDoJogador = 1;                                     //1 = X, 2 = O
     int rodada = 0;                                             //Quantas vezes os jogadores jogaram no total
-    int opcao;                                                  //Opção de reinício
+    int opcao;                                                  //Op��o de rein�cio
     bool posicionouJogada;                                      //Verifica se o jogador colocou um marcador no tabuleiro
- 
+
     //Coloca os '-' no tabuleiro para indicar o vazio
     iniciaTabuleiro(tabuleiro);
- 
+
     while(rodada < 9 && estadoDeJogo == 1){
- 
-        limpaTelaLinux();
+
+       limpaTelaLinux();
         limpaTelaWindows();
- 
+        exibeTabuleiro(tabuleiro);
+        printf("\n");
+        exibeInstrucoes();
+        printf("\n");
+       
+
         printf("\nRodada: %i \n",rodada);
         printf("Pontuacao: %s : %i  x  %i : %s",nomeDoJogadorUm,pontuacaoJogadorUm,pontuacaoJogadorDois,nomeDoJogadorDois);
 
         //Atualiza o nome do jogador atual
         if(turnoDoJogador == 1){
- 
+
             strcpy(nomeDoJogadorAtual,nomeDoJogadorUm);
 
-            
- 
+
+
         }else{
- 
+
             strcpy(nomeDoJogadorAtual,nomeDoJogadorDois);
- 
+
         }
- 
+
         posicionouJogada = false;
- 
-        //Matriz de posicoes possíveis
+
+        //Matriz de posicoes poss�veis
         int posicoes[9][2] = {{2,0},{2,1},{2,2},{1,0},{1,1},{1,2},{0,0},{0,1},{0,2}};
- 
+
         while(posicionouJogada == false){
- 
-            //Lê a jogada
+
+            //L� a jogada
             printf("\n%s digite uma posicao conforme o mapa acima:",nomeDoJogadorAtual);
-            scanf("%d",&posicaoJogada); 
- 
-            //Passa a linha e coluna de acordo com a matriz de posições exibida no mapa
+            scanf("%d",&posicaoJogada);
+
+            //Passa a linha e coluna de acordo com a matriz de posi��es exibida no mapa
             linhaJogada = posicoes[posicaoJogada-1][0];
             colunaJogada = posicoes[posicaoJogada-1][1];
- 
-            //Verifica se a posição é vazia
+
+            //Verifica se a posi��o � vazia
             if(tabuleiro[linhaJogada][colunaJogada] == '-'){
- 
+
                 //Conseguiu posicionar um marcador
                 posicionouJogada = true;
- 
-                //Verifica de quem é a vez para posicionar o marcador
+
+                //Verifica de quem � a vez para posicionar o marcador
                 if(turnoDoJogador == 1){
- 
+
                     tabuleiro[linhaJogada][colunaJogada] = 'X';
- 
+
                     turnoDoJogador = 2;
- 
+
                 }else{
- 
+
                     tabuleiro[linhaJogada][colunaJogada] = 'O';
- 
+
                     turnoDoJogador = 1;
- 
+
                 }
- 
+
             }
- 
+
         }
- 
+
         //Confere se o jogo acabou
         if(confereTabuleiro(tabuleiro) == 1){
             printf("O jogador %s venceu", nomeDoJogadorUm);
@@ -449,12 +454,12 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
             pontuacaoJogadorDois++;
             estadoDeJogo = 0;
         }
- 
+
         //Aumenta uma rodada
         rodada++;
- 
+
     }
- 
+    
     exibeTabuleiro(tabuleiro);
     printf("Fim de jogo");
     printf("\nO que deseja fazer?");
@@ -468,18 +473,18 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
         menuInicial();
     }else{
     }
- 
+
 }
 
 void menuInicial(){
- 
-    //Opção escolhida pelo jogador
+
+    //Op��o escolhida pelo jogador
     int opcao = 0, opcao2=0;
- 
+
     //Nome dos jogadores
     char nomeDoJogadorUm[30], nomeDoJogadorDois[30];
- 
-    //Enquanto o jogador não digita uma opcao válida, mostra o menu novamente
+
+    //Enquanto o jogador n�o digita uma opcao v�lida, mostra o menu novamente
     while(opcao < 1 || opcao > 4){
         limpaTelaLinux();
         limpaTelaWindows();
@@ -489,21 +494,21 @@ void menuInicial(){
         printf("\n3 - Sobre");
         printf("\n4 - Sair");
         printf("\nEscolha uma opcao e tecle ENTER: ");
- 
+
         //Faz a leitura da opcao
         scanf("%d", &opcao);
- 
+
         //Faz algo de acordo com a opcao escolhida
         switch(opcao){
             case 1:
                 //Inicia o jogo
                 //printf("Jogo iniciado)";
                 printf("Digite o nome do jogador 1: ");
-                scanf("%s", nomeDoJogadorUm); 
+                scanf("%s", nomeDoJogadorUm);
                 printf("Digite o nome do jogador 2: ");
                 scanf("%s", nomeDoJogadorDois);
                 jogo(nomeDoJogadorUm, nomeDoJogadorDois,0,0);
-                
+
                 break;
 
             case 2:
@@ -532,12 +537,12 @@ void menuInicial(){
                 break;
         }
     }
- 
+
 }
- 
- 
+
+
 int main(){
- 
+
     menuInicial();
     return 0;
 }
