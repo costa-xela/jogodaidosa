@@ -391,7 +391,7 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
         posicionouJogada = false;
 
         //Matriz de posicoes possiveis
-        int posicoes[9][2] = {{2,0},{2,1},{2,2},{1,0},{1,1},{1,2},{0,0},{0,1},{0,2}};
+        int posicoes[9][2] = {{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}};
 
         while(posicionouJogada == false){
 
