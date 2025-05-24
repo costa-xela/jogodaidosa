@@ -1,9 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <time.h>
+#include <stdio.h> //biblioteca usada para entradas e saídas
+#include <stdlib.h> //biblioteca usada na função limpaTela
+#include <string.h> //biblioteca usada para copiar vetores
+#include <stdbool.h> //biblioteca usada para utilização de booleanos
+#include <time.h> //biblioteca usada para criar a semente de tempo da função srand(time(NULL)) para aleatoriedade
 
+//protótipo de funções para evitar erros
 void iniciaTabuleiro(char tabuleiro[3][3]);
 void exibeTabuleiro(char tabuleiro[3][3]);
 void exibeInstrucoes();
@@ -103,7 +104,7 @@ int avaliarTabuleiro(char tabuleiro[3][3]) {
 
 // Implementacao do algoritmo Minimax
 int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
-    // Avalia o estado atual do tabuleiro
+    // Avalia o estado atual do tabuleiro e atribui um valor a pontuação
     int pontuacao = avaliarTabuleiro(tabuleiro);
 
     // Se a CPU ganhou, retorna a pontuacao
@@ -122,7 +123,7 @@ int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
     if(ehMaximizador) {
         int melhorPontuacao = -1000;
 
-        // Percorre todas as celulas
+        // Percorre todas as celulas e calcula a pontuação das jogadas possíveis
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 // Verifica se a celula esta vazia
@@ -139,6 +140,7 @@ int minimax(char tabuleiro[3][3], int profundidade, bool ehMaximizador) {
                 }
             }
         }
+        //retorna a melhor pontuação possível
         return melhorPontuacao;
     }
     // Se eh a vez do minimizador (jogador)
@@ -224,7 +226,7 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
             while(!posicionou) {
                 printf("\n%s, digite uma posicao (1-9): ", nomeDoJogador);
                 scanf(" %c", &posicaoJogada);
-                int idx = posicaoJogada - '1';
+                int idx = posicaoJogada - '1'; //converte o tipo char para inteiro e diminui um
                 if(idx >= 0 && idx <= 8) {
                     linhaJogada = posicoes[idx][0];
                     colunaJogada = posicoes[idx][1];
