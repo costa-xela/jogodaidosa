@@ -1,3 +1,5 @@
+// Trabalho realizado por Alexsandro, Alvaro e João.
+// Bibliotecas Usadas para o projeto
 #include <stdio.h> //biblioteca usada para entradas e saídas
 #include <stdlib.h> //biblioteca usada na função limpaTela
 #include <string.h> //biblioteca usada para copiar vetores
@@ -18,16 +20,16 @@ bool tabuleiroCompleto(char tabuleiro[3][3]);
 void encontrarMelhorMovimento(char tabuleiro[3][3], int *linha, int *coluna);
 void menuInicial();
 
-
+//funcao que realiza a limpa do terminal em sistemas operacionais Windows
 void limpaTelaWindows(){
     system("cls");
 }
+//funcao que realiza a limpa do terminal em sistemas operacionais Linux
 void limpaTelaLinux(){
     system("clear");
 }
-
+//funcao que cria o tabuleiro visualmente
 void iniciaTabuleiro(char tabuleiro[3][3]){
-
     //Navega por cada posicaoo do tabuleiro e coloca o simbolo de '-'
     int linha,coluna;
     for(linha = 0; linha < 3; linha++){
@@ -35,20 +37,16 @@ void iniciaTabuleiro(char tabuleiro[3][3]){
             tabuleiro[linha][coluna] = '-';
         }
     }
-
 }
+//funcao que mostra as instrucoes de possiveis posicoes que possam ser jogadas
 void exibeInstrucoes(){
-
     printf("\nMapa de Posicoes:");
     printf("\n 1 | 2 | 3");
     printf("\n 4 | 5 | 6");
     printf("\n 7 | 8 | 9");
-
 }
-
 void exibeTabuleiro (char tabuleiro[3][3]){
-
-    //Exibe o tabuleiro com suas linhas e colunas quebrando a linha ao sair de um for
+//Exibe o tabuleiro com suas linhas e colunas quebrando a linha ao sair de um for
    int linha,coluna;
    printf("\n");
    for(linha = 0; linha < 3; linha++){
@@ -57,8 +55,8 @@ void exibeTabuleiro (char tabuleiro[3][3]){
        }
        printf("\n");
    }
-
 }
+//funcao que verfica as linhas, colunas e as duas diagonais, em busca de um vencedor, que ira retorna o vencedor.
 int confereTabuleiro(char tabuleiro[3][3]) {
     // Verifica Linhas, Colunas e Diagonais
     for(int i = 0; i < 3; i++) {
@@ -211,7 +209,6 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
     iniciaTabuleiro(tabuleiro);
     //srand é necessario para que a funcao rand funcione normalmente, deixamos como "null" para que ele retorne o tempo atual em segundos, sem ela a funcao rand n funciona
     srand(time(NULL));
-    
     while(rodada < 9 && estadoDeJogo == 1) {
         limpaTelaLinux();
         limpaTelaWindows();
@@ -219,7 +216,6 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
         printf("Pontuacao: %s %d x %d CPU\n", nomeDoJogador, pontJogador, pontCPU);
         exibeTabuleiro(tabuleiro);
         exibeInstrucoes();
-
         if(rodada % 2 == 0) {
             // Jogador
             posicionou = false;
@@ -250,7 +246,6 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
                 }
             }
         }
-
         int resultado = confereTabuleiro(tabuleiro);
         if(resultado == 1) {
             printf("\n%s venceu!\n", nomeDoJogador);
@@ -263,7 +258,6 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
         }
         rodada++;
     }
-
     exibeTabuleiro(tabuleiro);
     if(estadoDeJogo == 1){
         printf("\nEmpate!\n");
@@ -273,7 +267,6 @@ void modoFacilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
     printf("\n2 - Menu Inicial");
     printf("\n3 - Sair\n");
     scanf("%d", &opcao);
-
     if(opcao == 1)
         modoFacilCpu(nomeDoJogador, pontJogador, pontCPU);
     else if(opcao == 2)
@@ -289,7 +282,6 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
     bool posicionou;
     int opcao;
     iniciaTabuleiro(tabuleiro);
-
     while(rodada < 9 && estadoDeJogo == 1) {
         limpaTelaLinux();
         limpaTelaWindows();
@@ -339,12 +331,10 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
             pontCPU++;
             estadoDeJogo = 0;
         }
-
         rodada++;
     }
     exibeTabuleiro(tabuleiro);
     if(estadoDeJogo == 1) printf("\nEmpate!\n");
-
     printf("\nO que deseja fazer?");
     printf("\n1 - Jogar novamente");
     printf("\n2 - Menu Inicial");
@@ -355,7 +345,6 @@ void modoDificilCpu(char nomeDoJogador[], int pontJogador, int pontCPU) {
     else if(opcao == 2)
         menuInicial();
 }
-
 void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogadorUm, int pontuacaoJogadorDois){
     ///Variaveis Gerais
     char nomeDoJogadorAtual[30];                                //Nomes dos jogadores
@@ -369,67 +358,45 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
     bool posicionouJogada;                                      //Verifica se o jogador colocou um marcador no tabuleiro
     //Coloca os '-' no tabuleiro para indicar o vazio
     iniciaTabuleiro(tabuleiro);
-
     while(rodada < 9 && estadoDeJogo == 1){
-
         limpaTelaLinux();
         limpaTelaWindows();
         exibeTabuleiro(tabuleiro);
         printf("\n");
         exibeInstrucoes();
         printf("\n");
-       
-
         printf("\nRodada: %i \n",rodada);
         printf("Pontuacao: %s : %i  x  %i : %s",nomeDoJogadorUm,pontuacaoJogadorUm,pontuacaoJogadorDois,nomeDoJogadorDois);
-
         //Atualiza o nome do jogador atual
         if(turnoDoJogador == 1){
             strcpy(nomeDoJogadorAtual,nomeDoJogadorUm);
         }else{
             strcpy(nomeDoJogadorAtual,nomeDoJogadorDois);
         }
-
         posicionouJogada = false;
-
         //Matriz de posicoes possiveis
         int posicoes[9][2] = {{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}};
-
         while(posicionouJogada == false){
-
             //Ele ira le a jogada
             printf("\n%s digite uma posicao conforme o mapa acima:",nomeDoJogadorAtual);
             scanf("%d",&posicaoJogada);
-
             //Passa a linha e coluna de acordo com a matriz de posicoes exibida no mapa
             linhaJogada = posicoes[posicaoJogada-1][0];
             colunaJogada = posicoes[posicaoJogada-1][1];
-
             //Verifica se a posicao eh vazia
             if(tabuleiro[linhaJogada][colunaJogada] == '-'){
-
                 //Conseguiu posicionar um marcador
                 posicionouJogada = true;
-
                 //Verifica de quem eh a vez para posicionar o marcador
                 if(turnoDoJogador == 1){
-
                     tabuleiro[linhaJogada][colunaJogada] = 'X';
-
                     turnoDoJogador = 2;
-
                 }else{
-
                     tabuleiro[linhaJogada][colunaJogada] = 'O';
-
                     turnoDoJogador = 1;
-
                 }
-
             }
-
         }
-
         //Confere se o jogo acabou
         if(confereTabuleiro(tabuleiro) == 1){
             printf("O jogador %s venceu", nomeDoJogadorUm);
@@ -440,12 +407,9 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
             pontuacaoJogadorDois++;
             estadoDeJogo = 0;
         }
-
         //Aumenta uma rodada
         rodada++;
-
     }
-    
     exibeTabuleiro(tabuleiro);
     printf("Fim de jogo");
     printf("\nO que deseja fazer?");
@@ -459,7 +423,6 @@ void jogo(char nomeDoJogadorUm [], char nomeDoJogadorDois [], int pontuacaoJogad
         menuInicial();
     }else{
     }
-
 }
 
 void menuInicial(){
@@ -517,9 +480,7 @@ void menuInicial(){
         }
     }
 }
-
 int main(){
-
     menuInicial();
     return 0;
 }
