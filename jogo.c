@@ -446,7 +446,7 @@ void menuInicial(){
         switch(opcao){
             case 1:
                 //Inicia o jogo
-                printf("Jogo iniciado)";
+                //printf("Jogo iniciado");
                 printf("Digite o nome do jogador 1: ");
                 scanf("%s", nomeDoJogadorUm);
                 printf("Digite o nome do jogador 2: ");
@@ -473,7 +473,7 @@ void menuInicial(){
             case 3:
                 //Mostra informacoes do Jogo
                 printf("Informacoes do jogo\n");
-                printf("Jogo criado por: Alexsandro, Alvaro e Joao.\n")
+                printf("Jogo criado por: Alexsandro, Alvaro e Joao.\n");
                 break;
             case 4:
                 printf("Ate mais!\n");
